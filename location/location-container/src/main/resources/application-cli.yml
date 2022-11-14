@@ -1,0 +1,14 @@
+dynamodb:
+  accessKey: dummy
+  secretKey: dummy
+  region: eu-west-1
+
+s3:
+  accessKey: dummy
+  secretKey: dummy
+  region: eu-west-2
+  bucketName: jfl110-my-location
+  fileName: test.squares.json
+  photo:
+    bucketName: jfl110-my-location
+    photoFolderName: photos/live

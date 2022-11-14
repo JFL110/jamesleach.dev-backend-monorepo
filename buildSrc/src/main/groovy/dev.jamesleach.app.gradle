@@ -1,0 +1,14 @@
+plugins {
+    id 'dev.jamesleach.kotlin'
+    id 'org.springframework.boot'
+    id 'com.palantir.docker'
+}
+
+bootJar {
+    layered {
+        enabled = true
+    }
+
+    // Remove version number from bootJar
+    archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
+}

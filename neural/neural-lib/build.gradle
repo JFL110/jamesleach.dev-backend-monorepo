@@ -1,0 +1,21 @@
+plugins {
+    id 'dev.jamesleach.lib'
+}
+
+dependencies {
+    api project(':common-lib:foundation')
+
+    implementation 'org.deeplearning4j:deeplearning4j-ui:1.0.0-beta7'
+    api 'org.deeplearning4j:deeplearning4j-core:1.0.0-beta7'
+
+    api 'org.nd4j:nd4j-native-platform:1.0.0-beta7'
+    if (rootProject.hasProperty("avx512")) {
+        api 'org.nd4j:nd4j-native:1.0.0-beta7:linux-x86_64-avx512'
+    } else {
+        api 'org.nd4j:nd4j-native:1.0.0-beta7:linux-x86_64-avx2'
+    }
+
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.0-alpha0'
+
+    testFixturesApi testFixtures(project(':common-lib:foundation'))
+}

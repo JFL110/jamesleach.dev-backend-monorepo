@@ -1,0 +1,15 @@
+plugins {
+    id 'dev.jamesleach.app'
+}
+
+dependencies {
+    implementation project(':common-lib:container')
+    implementation project(':location:location-square')
+    implementation project(':common-lib:s3')
+
+    implementation 'com.drewnoakes:metadata-extractor:2.13.0'
+
+    testImplementation testFixtures(project(':location:location-square'))
+    testImplementation testFixtures(project(':common-lib:container'))
+    testImplementation testFixtures(project(':common-lib:s3'))
+}
