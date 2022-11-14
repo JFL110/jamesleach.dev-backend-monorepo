@@ -1,4 +1,4 @@
-name: Push to ECR
+name: Push to ECR & Deploy to Staging
 
 on:
   workflow_dispatch
@@ -40,11 +40,12 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Docker Build
+      - name: Build & Push
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
           cd ./Docker
-          docker build -t $ECR_REGISTRY/jamesleach-dev:latest -t $ECR_REGISTRY/jamesleach-dev:$GITHUB_SHA .
+          docker build -t $ECR_REGISTRY/jamesleach-dev:latest -t $ECR_REGISTRY/jamesleach-dev:$GITHUB_SHA -t $ECR_REGISTRY/jamesleach-dev:staging .
           docker push $ECR_REGISTRY/jamesleach-dev:latest
+          docker push $ECR_REGISTRY/jamesleach-dev:staging
           docker push $ECR_REGISTRY/jamesleach-dev:$GITHUB_SHA
