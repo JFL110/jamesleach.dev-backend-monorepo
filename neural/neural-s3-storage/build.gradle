@@ -1,0 +1,11 @@
+plugins {
+    id 'dev.jamesleach.lib'
+}
+
+dependencies {
+    api project(':neural:neural-lib')
+    api project(':common-lib:s3')
+
+    testFixturesApi testFixtures(project(':neural:neural-lib'))
+    testFixturesApi testFixtures(project(':common-lib:s3'))
+}

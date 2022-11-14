@@ -1,0 +1,11 @@
+plugins {
+    id 'dev.jamesleach.lib'
+}
+
+dependencies {
+    api project(':common-lib:foundation')
+    api project(':common-lib:web')
+
+    testFixturesApi testFixtures(project(':common-lib:foundation'))
+    testFixturesApi testFixtures(project(':common-lib:web'))
+}

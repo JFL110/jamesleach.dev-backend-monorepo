@@ -1,0 +1,21 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.plugin.spring'
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    springVersion = '5.2.21.RELEASE'
+    springBootVersion = '2.6.7'
+    kotlinVersion = '1.6.21'
+}
+
+test {
+    testLogging {
+        events "PASSED", "SKIPPED", "FAILED", "STANDARD_OUT", "STANDARD_ERROR"
+    }
+    useJUnitPlatform()
+}

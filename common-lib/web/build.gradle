@@ -1,0 +1,18 @@
+plugins {
+    id 'dev.jamesleach.lib'
+}
+
+dependencies {
+    api project(':common-lib:foundation')
+
+    api "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    api group: 'org.springframework.security', name: 'spring-security-core', version: '5.6.3'
+    api group: 'org.springframework.security', name: 'spring-security-config', version: '5.6.3'
+    api group: 'org.springframework.security', name: 'spring-security-web', version: '5.6.3'
+
+    api 'org.springdoc:springdoc-openapi-ui:1.6.8'
+    api group: 'org.springdoc', name: 'springdoc-openapi-security', version: '1.6.8'
+
+    testFixturesApi "org.springframework.boot:spring-boot-starter-webflux:$springBootVersion"
+    testFixturesApi testFixtures(project(':common-lib:foundation'))
+}

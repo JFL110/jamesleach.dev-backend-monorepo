@@ -1,0 +1,13 @@
+plugins {
+    id 'dev.jamesleach.app'
+}
+
+dependencies {
+    implementation project(':common-lib:container')
+    implementation project(':neural:neural-lib')
+    implementation project(':neural:neural-s3-storage')
+
+    testImplementation testFixtures(project(':common-lib:container'))
+    testImplementation testFixtures(project(':neural:neural-lib'))
+    testImplementation testFixtures(project(':neural:neural-s3-storage'))
+}

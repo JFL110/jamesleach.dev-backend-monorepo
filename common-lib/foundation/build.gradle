@@ -1,0 +1,26 @@
+plugins {
+    id 'dev.jamesleach.lib'
+}
+
+dependencies {
+    api group: 'com.google.guava', name: 'guava', version: '31.1-jre'
+    api group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+    api group: 'org.springframework', name: 'spring-context', version: springVersion
+    // TODO standardise
+    api "org.springframework.boot:spring-boot:$springBootVersion"
+    api "org.springframework.boot:spring-boot-starter-logging:$springBootVersion"
+
+    api group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: kotlinVersion
+    api "com.fasterxml.jackson.module:jackson-module-kotlin:2.13.2"
+    api "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.2"
+
+    testFixturesApi group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
+    testFixturesApi group: 'org.mockito', name: 'mockito-core', version: '4.5.1'
+    testFixturesApi group: 'org.mockito.kotlin', name: 'mockito-kotlin', version: '3.2.0'
+
+    testFixturesApi(platform('org.junit:junit-bom:5.8.2'))
+    testFixturesApi('org.junit.jupiter:junit-jupiter')
+
+    testFixturesApi group: 'org.springframework', name: 'spring-test', version: springVersion
+    testFixturesApi group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+}

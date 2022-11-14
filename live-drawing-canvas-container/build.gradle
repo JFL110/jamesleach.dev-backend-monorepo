@@ -1,0 +1,15 @@
+plugins {
+    id 'dev.jamesleach.app'
+}
+
+bootRun {
+    systemProperty "spring.profiles.active", "cli"
+}
+
+dependencies {
+    implementation project(':common-lib:container')
+    implementation 'org.springframework:spring-websocket:5.3.23'
+    implementation 'org.springframework:spring-messaging:5.3.23'
+
+    testImplementation testFixtures(project(':common-lib:container'))
+}

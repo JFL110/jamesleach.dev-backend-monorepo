@@ -1,0 +1,15 @@
+plugins {
+    id 'dev.jamesleach.lib'
+}
+
+dependencies {
+    api project(':common-lib:foundation')
+    api 'software.amazon.awssdk:aws-sdk-java:2.17.276'
+    api 'software.amazon.awssdk:dynamodb-enhanced:2.17.276'
+
+    testFixturesApi testFixtures(project(':common-lib:foundation'))
+    testFixturesApi "org.testcontainers:dynalite:1.17.3"
+    testFixturesApi 'org.testcontainers:testcontainers:1.17.3'
+    testFixturesApi 'org.testcontainers:junit-jupiter:1.17.3'
+    testFixturesApi 'com.amazonaws:aws-java-sdk-dynamodb:1.12.310'
+}
