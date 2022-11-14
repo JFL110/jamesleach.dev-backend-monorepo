@@ -1,0 +1,52 @@
+name: Push to ECR
+
+on:
+  workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: 11
+        distribution: 'adopt'
+
+    - name: Validate Gradle wrapper
+      uses: gradle/wrapper-validation-action@v1
+
+    - name: BootJar
+      uses: gradle/gradle-build-action@v1
+      with:
+        arguments: bootJar
+
+    - name: Copy Jars
+      run: |
+        cp live-drawing-canvas-container/build/libs/* Docker/
+        cp location/location-container/build/libs/* Docker/
+        cp neural/digit-classification-container/build/libs/* Docker/
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-2
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Docker Build
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      run: |
+        cd ./Docker
+        docker build -t jamesleach-dev .
+             run: |
+               docker build -t $ECR_REGISTRY/jamesleach-dev:latest -t $ECR_REGISTRY/jamesleach-dev:$GITHUB_SHA .
+               docker push $ECR_REGISTRY/jamesleach-dev:latest
+               docker push $ECR_REGISTRY/jamesleach-dev:$GITHUB_SHA
