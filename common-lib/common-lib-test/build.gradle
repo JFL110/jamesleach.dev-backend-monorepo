@@ -1,0 +1,15 @@
+plugins {
+    id 'dev.jamesleach.app'
+}
+
+dependencies {
+    implementation project(':common-lib:container')
+    implementation project(':common-lib:foundation')
+    implementation project(':common-lib:web')
+    implementation project(':common-lib:dynamodb')
+
+    testImplementation testFixtures(project(':common-lib:foundation'))
+    testImplementation testFixtures(project(':common-lib:web'))
+    testImplementation testFixtures(project(':common-lib:container'))
+    testImplementation testFixtures(project(':common-lib:dynamodb'))
+}

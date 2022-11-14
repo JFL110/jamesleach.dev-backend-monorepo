@@ -1,0 +1,12 @@
+plugins {
+    id 'dev.jamesleach.lib'
+}
+
+dependencies {
+    api project(':common-lib:foundation')
+    api 'com.amazonaws:aws-java-sdk-s3:1.12.309'
+
+    testFixturesApi testFixtures(project(':common-lib:foundation'))
+    testFixturesApi 'com.amazonaws:aws-java-sdk-s3:1.12.309'
+    testFixturesApi "org.springframework.boot:spring-boot:$springBootVersion"
+}
