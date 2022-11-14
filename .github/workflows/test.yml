@@ -1,9 +1,7 @@
 name: Test
 
 on:
-  push:
-    branches:
-      - '*'
+  push
 
 jobs:
   build:
@@ -18,7 +16,7 @@ jobs:
         distribution: 'adopt'
     - name: Validate Gradle wrapper
       uses: gradle/wrapper-validation-action@v1
-    - name: Test with Gradle
+    - name: Test
       uses: gradle/gradle-build-action@v1
       with:
         arguments: test

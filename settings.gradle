@@ -1,0 +1,14 @@
+rootProject.name = 'jamesleachdev'
+include 'common-lib:foundation',
+        'common-lib:container',
+        'common-lib:web',
+        'common-lib:dynamodb',
+        'common-lib:s3',
+        'common-lib:common-lib-test',
+        'location:location-square',
+        'location:location-cli',
+        'location:location-container',
+        'live-drawing-canvas-container',
+        'neural:neural-lib',
+        'neural:neural-s3-storage',
+        'neural:digit-classification-container'
