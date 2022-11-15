@@ -3,9 +3,8 @@ plugins {
 }
 
 dependencies {
-    implementation project(':common-lib:container')
     implementation project(':neural:digit-classification')
+    implementation "org.springframework.boot:spring-boot-starter:$springBootVersion"
 
-    testImplementation testFixtures(project(':common-lib:container'))
     testImplementation testFixtures(project(':neural:digit-classification'))
 }

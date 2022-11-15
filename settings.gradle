@@ -11,4 +11,6 @@ include 'common-lib:foundation',
         'live-drawing-canvas-container',
         'neural:neural-lib',
         'neural:neural-s3-storage',
-        'neural:digit-classification-container'
+        'neural:digit-classification',
+        'neural:digit-classification-container',
+        'neural:digit-classification-trainer-cli'
