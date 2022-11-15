@@ -2,6 +2,8 @@ package dev.jamesleach
 
 import dev.jamesleach.dynamodb.DynamoDbContainerSpringConfiguration
 import dev.jamesleach.web.StatusDto
+import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,7 +13,10 @@ import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.web.reactive.server.WebTestClient
 
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+    properties = ["version-file=src/test/resources/test-version-information.txt"]
+)
 @TestExecutionListeners(DynamoDbContainerSpringConfiguration::class)
 @ActiveProfiles("test")
 class TestStatusEndpoint @Autowired constructor(
@@ -22,7 +27,8 @@ class TestStatusEndpoint @Autowired constructor(
         webTestClient.get().uri("/status").exchange()
             .expectStatus().isEqualTo(200)
             .expectBody(StatusDto::class.java).consumeWith {
-                assertEquals("00:00:00.000", it.responseBody?.uptime)
+                assertThat(it.responseBody?.uptime).matches("00:00:0.*")
+                assertEquals("version-information", it.responseBody?.versionInformation)
             }
     }
 }

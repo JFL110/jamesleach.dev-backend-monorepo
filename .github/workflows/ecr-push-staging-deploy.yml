@@ -23,11 +23,12 @@ jobs:
         with:
           arguments: bootJar
 
-      - name: Copy Jars
+      - name: Assemble Docker Files
         run: |
           cp live-drawing-canvas-container/build/libs/* Docker/
           cp location/location-container/build/libs/* Docker/
           cp neural/digit-classification-container/build/libs/* Docker/
+          echo "Commit $GITHUB_SHA\n" > myfile.txt
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -49,3 +50,6 @@ jobs:
           docker push $ECR_REGISTRY/jamesleach-dev:latest
           docker push $ECR_REGISTRY/jamesleach-dev:staging
           docker push $ECR_REGISTRY/jamesleach-dev:$GITHUB_SHA
+
+      - name: Deploy to Staging
+        run: aws ecs update-service --cluster="jamesleach-dev" --service="jamesleach-dev-staging" --force-new-deployment

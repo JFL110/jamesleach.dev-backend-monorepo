@@ -27,7 +27,7 @@ class DynamoDbConfiguration(
 
         val client = DynamoDbClient.builder()
             .credentialsProvider(
-                if (accessKey == null && secretKey == null)
+                if (accessKey.isNullOrBlank() && secretKey.isNullOrBlank())
                     DefaultCredentialsProvider.builder().build()
                 else
                     StaticCredentialsProvider.create(
