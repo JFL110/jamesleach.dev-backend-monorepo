@@ -24,7 +24,7 @@ class S3Configuration(
     @Lazy
     fun s3Client(): AmazonS3 = AmazonS3ClientBuilder.standard()
         .withCredentials(
-            if (accessKey == null && secretKey == null)
+            if (accessKey.isNullOrBlank() && secretKey.isNullOrBlank())
                 DefaultAWSCredentialsProviderChain.getInstance()
             else
                 AWSStaticCredentialsProvider(BasicAWSCredentials(accessKey, secretKey))
