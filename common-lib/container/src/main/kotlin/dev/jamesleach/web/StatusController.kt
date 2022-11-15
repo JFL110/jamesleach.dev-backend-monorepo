@@ -12,7 +12,7 @@ import java.time.Duration
 import java.time.ZonedDateTime
 
 private val startTime = ZonedDateTime.now()
-private const val DEFAULT_VERSION_FILE = "./status.txt";
+private const val DEFAULT_VERSION_FILE = "./version.txt";
 private val log = LoggerFactory.getLogger(StatusController::class.java)
 
 /**
@@ -25,10 +25,11 @@ internal class StatusController(
 ) {
 
     private val versionFileContents = lazy {
-        val path =  Paths.get(versionFile ?: DEFAULT_VERSION_FILE)
+        val versionFileDefaulted = if (versionFile.isNullOrBlank()) DEFAULT_VERSION_FILE else versionFile!!
+        val path = Paths.get(versionFileDefaulted)
         try {
             path.toFile().readText(Charsets.UTF_8)
-        }catch (e: FileNotFoundException){
+        } catch (e: FileNotFoundException) {
             log.error("No version file found - looked for ${path.toAbsolutePath()}")
             throw e
         }

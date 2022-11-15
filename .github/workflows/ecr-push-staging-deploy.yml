@@ -28,7 +28,7 @@ jobs:
           cp live-drawing-canvas-container/build/libs/* Docker/
           cp location/location-container/build/libs/* Docker/
           cp neural/digit-classification-container/build/libs/* Docker/
-          echo "Commit $GITHUB_SHA\n" > myfile.txt
+          echo "Commit $GITHUB_SHA\n" > Docker/version.txt
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
