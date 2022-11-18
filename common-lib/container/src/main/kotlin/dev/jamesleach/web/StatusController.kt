@@ -1,5 +1,7 @@
 package dev.jamesleach.web
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import dev.jamesleach.ZonedNowSupplier
 import org.apache.commons.lang3.time.DurationFormatUtils
 import org.slf4j.LoggerFactory
@@ -11,8 +13,7 @@ import java.nio.file.Paths
 import java.time.Duration
 import java.time.ZonedDateTime
 
-private val startTime = ZonedDateTime.now()
-private const val DEFAULT_VERSION_FILE = "./status.txt";
+private const val DEFAULT_VERSION_FILE = "./version.json";
 private val log = LoggerFactory.getLogger(StatusController::class.java)
 
 /**
@@ -21,16 +22,18 @@ private val log = LoggerFactory.getLogger(StatusController::class.java)
 @RestController
 internal class StatusController(
     private val nowSupplier: ZonedNowSupplier,
+    private val objectMapper: ObjectMapper,
     @Value("\${version-file:}") val versionFile: String?,
 ) {
 
     private val versionFileContents = lazy {
-        val path =  Paths.get(versionFile ?: DEFAULT_VERSION_FILE)
+        val versionFileDefaulted = if (versionFile.isNullOrBlank()) DEFAULT_VERSION_FILE else versionFile!!
+        val path = Paths.get(versionFileDefaulted)
         try {
-            path.toFile().readText(Charsets.UTF_8)
-        }catch (e: FileNotFoundException){
+            objectMapper.readValue<VersionDto>(path.toFile().readText(Charsets.UTF_8))
+        } catch (e: FileNotFoundException) {
             log.error("No version file found - looked for ${path.toAbsolutePath()}")
-            throw e
+            null
         }
     }
 
@@ -39,4 +42,8 @@ internal class StatusController(
         DurationFormatUtils.formatDurationHMS(Duration.between(startTime, nowSupplier.get()).toMillis()),
         versionFileContents.value
     )
+
+    companion object {
+        private val startTime = ZonedDateTime.now()
+    }
 }
