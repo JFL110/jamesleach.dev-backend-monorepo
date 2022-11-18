@@ -13,8 +13,7 @@ internal class SecurityConfiguration : WebSecurityConfigurerAdapter() {
             csrf { disable() }
             httpBasic { disable() }
             authorizeRequests {
-                authorize("/ping", permitAll)
-                authorize("/error", permitAll)
+                authorize("/**", permitAll)
             }
         }
     }

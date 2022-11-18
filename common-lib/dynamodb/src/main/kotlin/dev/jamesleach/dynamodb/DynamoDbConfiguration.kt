@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
+import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient
 import software.amazon.awssdk.regions.Region
@@ -17,17 +18,21 @@ import java.net.URI
 @Profile("!test")
 class DynamoDbConfiguration(
     @Value("\${dynamodb.endpoint:}") val endpoint: String?,
-    @Value("\${dynamodb.accessKey}") val accessKey: String,
-    @Value("\${dynamodb.secretKey}") val secretKey: String,
+    @Value("\${dynamodb.accessKey:}") val accessKey: String?,
+    @Value("\${dynamodb.secretKey:}") val secretKey: String?,
     @Value("\${dynamodb.region}") val region: String
 ) {
     @Bean
     fun amazonDynamoDB(): DynamoDbClient {
+
         val client = DynamoDbClient.builder()
             .credentialsProvider(
-                StaticCredentialsProvider.create(
-                    AwsBasicCredentials.create(accessKey, secretKey)
-                )
+                if (accessKey.isNullOrBlank() && secretKey.isNullOrBlank())
+                    DefaultCredentialsProvider.builder().build()
+                else
+                    StaticCredentialsProvider.create(
+                        AwsBasicCredentials.create(accessKey, secretKey)
+                    )
             )
 
         if (region.isNotEmpty()) {
