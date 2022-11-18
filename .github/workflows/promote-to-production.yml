@@ -25,5 +25,6 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
+             docker pull $ECR_REGISTRY/jamesleach-dev:staging
              docker tag $ECR_REGISTRY/jamesleach-dev:staging $ECR_REGISTRY/jamesleach-dev:production
              docker push $ECR_REGISTRY/jamesleach-dev:production
