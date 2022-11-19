@@ -39,7 +39,7 @@ class LocationCliIntegrationTest @Autowired constructor(
         assertEquals(0.02, allCollections[0].longitudeIncrement)
         assertTrue(Duration.between(allCollections[0].creationTime, ZonedDateTime.now()).seconds < 3)
 
-        Assertions.assertThat(allCollections[0].squares).containsExactly(161898822, 160008921, 159990921)
+        Assertions.assertThat(allCollections[0].squares).containsExactlyInAnyOrder(122804994L, 124586889L, 124586888L)
     }
 
     @Test
