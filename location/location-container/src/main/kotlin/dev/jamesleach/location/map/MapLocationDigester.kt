@@ -20,8 +20,8 @@ class MapLocationDigester(
     private val s3Client: AmazonS3,
     private val s3PhotoProcessor: S3PhotoProcessor,
     private val nowSupplier: ZonedNowSupplier,
-    @Value("\${s3.bucketName}") val bucketName: String,
-    @Value("\${s3.fileName}") val fileName: String,
+    @Value("\${s3.locations.bucketName}") val bucketName: String,
+    @Value("\${s3.locations.fileName}") val fileName: String,
 ) {
     fun digestLocations() {
         val squareCollections = squareCollectionDao.scan()
