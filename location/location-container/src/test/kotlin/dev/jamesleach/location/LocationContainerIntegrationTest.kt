@@ -30,10 +30,11 @@ import java.time.ZonedDateTime
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
     properties = [
-        "s3.bucketName=bucket-name",
-        "s3.fileName=file-name",
+        "s3.locations.bucketName=bucket-name",
+        "s3.locations.fileName=file-name",
         "s3.photo.bucketName=bucket-name",
-        "s3.photo.photoFolderName=folder-name"
+        "s3.photo.photoFolderName=folder-name",
+        "global-shapes-file=./src/main/resources/globe-shapes/ne_50m_admin_0_countries.shp"
     ]
 )
 @TestExecutionListeners(DynamoDbContainerSpringConfiguration::class)
@@ -98,7 +99,10 @@ class LocationContainerIntegrationTest @Autowired constructor(
         )
 
         // When
-        webTestClient.post().uri("/digest").exchange()
+        webTestClient.post()
+            .uri("/digest")
+            .bodyValue("testing-only-key")
+            .exchange()
             .expectStatus().isEqualTo(200)
             .expectBody(String::class.java).isEqualTo("Digest finished")
 
@@ -112,7 +116,6 @@ class LocationContainerIntegrationTest @Autowired constructor(
 
         val json = putObjectRequestCaptor.firstValue.inputStream.bufferedReader().use(BufferedReader::readText)
         assertNotNull(json)
-        assertEquals(json.length.toLong(), putObjectRequestCaptor.firstValue.metadata.contentLength)
         val mapLocationsDto = objectMapper.readValue<MapLocationsDto>(json)
 
         assertEquals(

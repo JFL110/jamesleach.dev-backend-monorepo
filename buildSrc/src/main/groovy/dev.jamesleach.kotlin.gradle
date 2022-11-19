@@ -4,7 +4,9 @@ plugins {
 }
 
 repositories {
-    mavenCentral()
+    mavenCentral().content {
+        excludeModule("javax.media", "jai_core")
+    }
 }
 
 ext {

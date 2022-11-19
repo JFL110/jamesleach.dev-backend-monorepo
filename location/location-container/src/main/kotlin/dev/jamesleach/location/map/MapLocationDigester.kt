@@ -5,8 +5,10 @@ import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.fasterxml.jackson.databind.ObjectMapper
 import dev.jamesleach.ZonedNowSupplier
+import dev.jamesleach.location.geotools.GlobalSquaresService
 import dev.jamesleach.location.s3photo.S3PhotoProcessor
 import dev.jamesleach.location.square.SquareCollectionDao
+import dev.jamesleach.location.square.SquareMapper
 import dev.jamesleach.location.square.SquaresDto
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
@@ -20,8 +22,10 @@ class MapLocationDigester(
     private val s3Client: AmazonS3,
     private val s3PhotoProcessor: S3PhotoProcessor,
     private val nowSupplier: ZonedNowSupplier,
-    @Value("\${s3.bucketName}") val bucketName: String,
-    @Value("\${s3.fileName}") val fileName: String,
+    private val squareMapper: SquareMapper,
+    private val globalSquaresService: GlobalSquaresService,
+    @Value("\${s3.locations.bucketName}") val bucketName: String,
+    @Value("\${s3.locations.fileName}") val fileName: String,
 ) {
     fun digestLocations() {
         val squareCollections = squareCollectionDao.scan()
@@ -38,9 +42,20 @@ class MapLocationDigester(
 
         val photos = s3PhotoProcessor.listPhotos()
 
+        val globalSquares = globalSquaresService.buildGlobalSquaresDto(
+            allSquaresByIncrements
+                .filter {
+                    it.latitudeIncrement == squareMapper.latitudeIncrement
+                            && it.longitudeIncrement == squareMapper.longitudeIncrement
+                }
+                .flatMap { it.squares }
+                .toSet()
+        )
+
         val output = MapLocationsDto(
             allSquaresByIncrements,
             photos,
+            globalSquares,
             nowSupplier.get()
         )
 

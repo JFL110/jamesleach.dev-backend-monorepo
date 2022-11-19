@@ -2,10 +2,19 @@ plugins {
     id 'dev.jamesleach.app'
 }
 
+repositories{
+    maven {
+        url "https://repo.osgeo.org/repository/release"
+    }
+}
+
 dependencies {
     implementation project(':common-lib:container')
     implementation project(':location:location-square')
     implementation project(':common-lib:s3')
+
+    implementation 'org.geotools:gt-shapefile:27.2'
+    implementation 'org.geotools:gt-main:27.2'
 
     implementation 'com.drewnoakes:metadata-extractor:2.13.0'
 
