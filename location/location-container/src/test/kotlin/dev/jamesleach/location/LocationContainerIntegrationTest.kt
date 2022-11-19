@@ -30,8 +30,8 @@ import java.time.ZonedDateTime
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
     properties = [
-        "s3.bucketName=bucket-name",
-        "s3.fileName=file-name",
+        "s3.locations.bucketName=bucket-name",
+        "s3.locations.fileName=file-name",
         "s3.photo.bucketName=bucket-name",
         "s3.photo.photoFolderName=folder-name"
     ]
@@ -98,7 +98,10 @@ class LocationContainerIntegrationTest @Autowired constructor(
         )
 
         // When
-        webTestClient.post().uri("/digest").exchange()
+        webTestClient.post()
+            .uri("/digest")
+            .bodyValue("testing-only-key")
+            .exchange()
             .expectStatus().isEqualTo(200)
             .expectBody(String::class.java).isEqualTo("Digest finished")
 
