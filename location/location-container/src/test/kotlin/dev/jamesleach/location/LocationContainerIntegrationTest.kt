@@ -6,11 +6,13 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import dev.jamesleach.dynamodb.DynamoDbContainerSpringConfiguration
 import dev.jamesleach.location.map.MapLocationsDto
+import dev.jamesleach.location.owntracks.OwnTracksLocationUpdateDto
 import dev.jamesleach.location.s3photo.PhotoDto
 import dev.jamesleach.location.square.SquareCollection
 import dev.jamesleach.location.square.SquareCollectionDao
 import dev.jamesleach.location.square.SquaresDto
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 import org.mockito.kotlin.argumentCaptor
@@ -98,6 +100,25 @@ class LocationContainerIntegrationTest @Autowired constructor(
             )
         )
 
+        webTestClient.post()
+            .uri("/locations")
+            .bodyValue(
+                OwnTracksLocationUpdateDto(
+                    acc = 15.5,
+                    alt = 22.2,
+                    lat = 56.5,
+                    lon = -23.3,
+                    created_at = 112423462,
+                    _type = "",
+                    tst = 112423462,
+                    tid = "",
+                    topic = "owntracks/user/testing-only-user-key"
+                )
+            )
+            .exchange()
+            .expectStatus().isEqualTo(200)
+            .expectBody(String::class.java).isEqualTo("{\"status\":200}")
+
         // When
         webTestClient.post()
             .uri("/digest")
@@ -144,9 +165,40 @@ class LocationContainerIntegrationTest @Autowired constructor(
                     0.1, 0.1,
                     setOf(99, 100, 1023, 1634, 1443)
                 ),
+                // OwnTracks Locations
+                SquaresDto(
+                    0.02, 0.02,
+                    setOf(127357834)
+                ),
+                // Photo locations
+                SquaresDto(
+                    0.02, 0.02,
+                    setOf(114993032, 92979026)
+                ),
             ),
             mapLocationsDto.squareCollection
         )
+    }
+
+    @Test
+    fun `cannot post owntracks location update with invalid user key`() {
+        webTestClient.post()
+            .uri("/locations")
+            .bodyValue(
+                OwnTracksLocationUpdateDto(
+                    acc = 15.5,
+                    alt = 22.2,
+                    lat = 56.5,
+                    lon = -23.3,
+                    created_at = 112423462,
+                    _type = "",
+                    tst = 112423462,
+                    tid = "",
+                    topic = "owntracks/user/wrong"
+                )
+            )
+            .exchange()
+            .expectStatus().isEqualTo(400)
     }
 
     private fun objectSummary(key: String, filePath: String?): S3ObjectSummary {
