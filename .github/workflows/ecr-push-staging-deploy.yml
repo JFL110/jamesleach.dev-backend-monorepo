@@ -3,7 +3,7 @@ name: Push to ECR & Deploy to Staging
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
