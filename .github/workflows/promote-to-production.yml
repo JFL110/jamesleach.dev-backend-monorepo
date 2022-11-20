@@ -25,9 +25,9 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-             docker pull $ECR_REGISTRY/jamesleach-dev:staging
-             docker tag $ECR_REGISTRY/jamesleach-dev:staging $ECR_REGISTRY/jamesleach-dev:production
-             docker push $ECR_REGISTRY/jamesleach-dev:production
+          docker pull $ECR_REGISTRY/jamesleach-dev:staging
+          docker tag $ECR_REGISTRY/jamesleach-dev:staging $ECR_REGISTRY/jamesleach-dev:production
+          docker push $ECR_REGISTRY/jamesleach-dev:production
 
       - name: Deploy to Production
         run: aws ecs update-service --cluster="jamesleach-dev" --service="jamesleach-dev-production" --force-new-deployment
