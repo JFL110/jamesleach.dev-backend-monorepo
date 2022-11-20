@@ -13,10 +13,7 @@ import org.springframework.test.context.TestExecutionListeners
 import java.time.Duration
 import java.time.ZonedDateTime
 
-@SpringBootTest(properties = [
-    "s3.bucketName=bucket-name",
-    "s3.fileName=file-name"
-])
+@SpringBootTest
 @ActiveProfiles("test")
 @TestExecutionListeners(DynamoDbContainerSpringConfiguration::class)
 class LocationCliIntegrationTest @Autowired constructor(
