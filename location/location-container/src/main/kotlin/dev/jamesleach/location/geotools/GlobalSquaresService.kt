@@ -16,7 +16,7 @@ import java.nio.file.Paths
 
 private val log = LoggerFactory.getLogger(GlobalSquaresService::class.java)
 private const val GLOBE_SHAPES_FILE =
-    "./location/location-container/src/main/resources/globe-shapes/ne_50m_admin_0_countries.shp"
+    "./globe-shapes/ne_50m_admin_0_countries.shp"
 
 @Component
 class GlobalSquaresService(
