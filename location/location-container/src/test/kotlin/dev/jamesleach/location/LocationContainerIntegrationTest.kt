@@ -34,7 +34,7 @@ import java.time.ZonedDateTime
         "s3.locations.fileName=file-name",
         "s3.photo.bucketName=bucket-name",
         "s3.photo.photoFolderName=folder-name",
-        "global-shapes-file=./src/main/resources/globe-shapes/ne_50m_admin_0_countries.shp"
+        "global-shapes-file=../../globe-shapes/ne_50m_admin_0_countries.shp"
     ]
 )
 @TestExecutionListeners(DynamoDbContainerSpringConfiguration::class)

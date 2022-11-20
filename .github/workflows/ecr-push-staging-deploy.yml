@@ -31,6 +31,7 @@ jobs:
           cp live-drawing-canvas-container/build/libs/* Docker/
           cp location/location-container/build/libs/* Docker/
           cp neural/digit-classification-container/build/libs/* Docker/
+          cp globe-shapes/ Docker/ -r
           echo "{\"commit\" : \"$GITHUB_SHA\"}" > Docker/version.json
 
       - name: Configure AWS credentials
