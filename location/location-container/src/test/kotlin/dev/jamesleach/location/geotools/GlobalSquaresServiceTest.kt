@@ -14,7 +14,7 @@ class GlobalSquaresServiceTest {
     private val squareMapper = SquareMapper()
     private val globalSquaresService = GlobalSquaresService(
         squareMapper,
-        "./src/main/resources/globe-shapes/ne_50m_admin_0_countries.shp"
+        "../../globe-shapes/ne_50m_admin_0_countries.shp"
     )
 
     @Test
