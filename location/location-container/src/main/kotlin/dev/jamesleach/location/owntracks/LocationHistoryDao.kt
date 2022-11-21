@@ -50,15 +50,17 @@ class LocationHistoryDao(
             return
         }
 
+        val locations = pending.flatMap {
+            objectMapper.readValue<List<LocationUpdate>>(
+                it.payload
+            )
+        }
+
         table.putItem(
             LocationHistoryEntity(
                 groupId,
-                nowSupplier.get().toInstant().toEpochMilli(),
-                objectMapper.writeValueAsString(pending.flatMap {
-                    objectMapper.readValue<List<LocationUpdate>>(
-                        it.payload
-                    )
-                })
+                locations.maxOf { it.time },
+                objectMapper.writeValueAsString(locations)
             )
         )
 

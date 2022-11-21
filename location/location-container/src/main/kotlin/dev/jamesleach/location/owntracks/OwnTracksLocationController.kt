@@ -1,10 +1,13 @@
 package dev.jamesleach.location.owntracks
 
 import dev.jamesleach.web.BadRequestException
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
+
+private val log = LoggerFactory.getLogger(OwnTracksLocationController::class.java)
 
 /**
  * Controller to log location updates from an OwnTracks Android App.
@@ -15,10 +18,12 @@ class OwnTracksLocationController(
     private val locationHistoryDao: LocationHistoryDao
 ) {
     @PostMapping("/locations")
-    fun recordLocation(@RequestBody locationUpdate: OwnTracksLocationUpdateDto): RecordLocationResponse {
+    fun recordLocation(@RequestBody locationUpdate: OwnTracksLocationUpdateDto) : List<OwnTracksLocationUpdateDto> {
         if (locationUpdate.topic != "owntracks/user/$userKey") {
             throw BadRequestException("Invalid user key from topic ${locationUpdate.topic}")
         }
+
+        log.info("Logging location history $locationUpdate")
 
         locationHistoryDao.createSinglePending(
             LocationUpdate(
@@ -30,11 +35,6 @@ class OwnTracksLocationController(
             )
         )
 
-        return RecordLocationResponse(200)
+        return listOf(locationUpdate)
     }
-
-
-    data class RecordLocationResponse(
-        val status: Int
-    )
 }

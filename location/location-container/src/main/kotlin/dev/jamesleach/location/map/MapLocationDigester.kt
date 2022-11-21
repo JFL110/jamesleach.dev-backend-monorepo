@@ -86,7 +86,7 @@ class MapLocationDigester(
         putToS3(objectMapper.writeValueAsString(output))
 
         val locationHistoryConsolationGroup = randomGuidSupplier.get()
-        log.info("Consolidating pending location histories into group $locationHistoryConsolationGroup")
+        log.info("Maybe consolidating pending location histories into group $locationHistoryConsolationGroup")
         locationHistoryDao.consolidatePending(locationHistoryConsolationGroup)
     }
 
