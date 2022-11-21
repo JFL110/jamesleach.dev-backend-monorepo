@@ -112,7 +112,7 @@ class LocationContainerIntegrationTest @Autowired constructor(
                     _type = "",
                     tst = 112423462,
                     tid = "",
-                    topic = "owntracks/user/testing-only-user-key"
+                    topic = "owntracks/user/testingonlyuserkey"
                 )
             )
             .exchange()
