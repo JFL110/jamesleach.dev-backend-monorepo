@@ -11,9 +11,6 @@ repositories {
 dependencies {
     implementation "io.spring.dependency-management:io.spring.dependency-management.gradle.plugin:1.0.11.RELEASE"
     implementation "org.springframework.boot:spring-boot-gradle-plugin:2.6.7"
-
-    implementation "com.palantir.gradle.docker:gradle-docker:0.33.0"
-
     implementation "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21"
     implementation "org.jetbrains.kotlin:kotlin-allopen:1.6.21"
     implementation "org.jetbrains.kotlin:kotlin-noarg:1.6.21"
