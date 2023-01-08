@@ -30,7 +30,7 @@ class TestStatusEndpoint @Autowired constructor(
                 assertNotNull(it.responseBody)
                 assertThat(it.responseBody?.uptime).matches("00:[0-9][0-9]:[0-9][0-9]\\..*")
                 assertNotNull(it.responseBody!!.version)
-                assertEquals("commit-sha", it.responseBody.version!!.commit)
+                assertEquals("commit-sha", it.responseBody?.version!!.commit)
             }
     }
 }

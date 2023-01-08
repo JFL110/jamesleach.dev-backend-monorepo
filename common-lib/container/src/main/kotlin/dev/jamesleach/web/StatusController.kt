@@ -13,7 +13,7 @@ import java.nio.file.Paths
 import java.time.Duration
 import java.time.ZonedDateTime
 
-private const val DEFAULT_VERSION_FILE = "./version.json";
+private const val DEFAULT_VERSION_FILE = "./version.json"
 private val log = LoggerFactory.getLogger(StatusController::class.java)
 
 /**
