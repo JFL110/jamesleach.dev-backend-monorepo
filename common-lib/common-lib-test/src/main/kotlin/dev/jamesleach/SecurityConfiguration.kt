@@ -12,7 +12,7 @@ import org.springframework.security.config.web.servlet.invoke
 class SecurityConfiguration : WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity?) {
         http {
-            cors { }
+            cors { disable() }
             csrf { disable() }
             httpBasic { disable() }
             authorizeRequests {

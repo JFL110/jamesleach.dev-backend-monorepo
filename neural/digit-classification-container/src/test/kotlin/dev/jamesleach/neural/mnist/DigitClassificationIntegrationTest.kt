@@ -141,8 +141,10 @@ class DigitClassificationIntegrationTest @Autowired constructor(
         webTestClient
             .get()
             .uri("/ping")
+            .header("Origin", "http://www.jamesleach.dev")
             .exchange()
             .expectStatus().isOk
+            .expectHeader().valueEquals("Access-Control-Allow-Origin", "**")
             .expectBody(String::class.java)
             .isEqualTo("pong")
     }
