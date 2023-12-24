@@ -15,7 +15,7 @@ internal class TakeoutRecordLocationConsumer : JsonConsumer {
     private val latitudeLongitudeCorrectionFactor = 10000000.0
     private val accuracyThreshold = 100 // meters
 
-    override fun canConsume(name: String) = name.endsWith("Location History/Records.json")
+    override fun canConsume(name: String) = name.endsWith("Location History (Timeline)/Records.json")
 
     override fun consume(inputStream: InputStream) = sequence {
         log.info("Reading record locations")

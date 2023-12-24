@@ -12,8 +12,9 @@ internal class TakeoutSemanticLocationConsumer(
 ) : JsonConsumer {
 
     private val latitudeLongitudeCorrectionFactor = 10000000.0
+    private val minAccuracyMeters = 300;
 
-    override fun canConsume(name: String) = name.contains("Takeout/Location History/Semantic Location History")
+    override fun canConsume(name: String) = name.contains("Takeout/Location History (Timeline)/Semantic Location History")
 
     override fun consume(inputStream: InputStream) = sequence {
         objectMapper.readTree(inputStream)["timelineObjects"].forEach { timelineObject ->
@@ -33,6 +34,13 @@ internal class TakeoutSemanticLocationConsumer(
 
                 activitySegment["waypointPath"]?.get("waypoints")?.forEach { waypoint ->
                     toLocation(waypoint["latE7"], waypoint["lngE7"])?.let { yield(it) }
+                }
+
+                activitySegment["simplifiedRawPath"]?.get("points")?.filter { point ->
+                    val accuracy = point.get("accuracyMeters")?.intValue()
+                    accuracy != null && accuracy < minAccuracyMeters
+                }?.forEach { point ->
+                    toLocation(point["latE7"], point["lngE7"])?.let { yield(it) }
                 }
             }
 

@@ -1,6 +1,8 @@
 package dev.jamesleach.location
 
 import dev.jamesleach.location.googletakeout.TakeoutExtractService
+import dev.jamesleach.location.gps.GpsConverter
+import dev.jamesleach.location.routepolyline.PolylineConverter
 import org.apache.commons.cli.CommandLine
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
@@ -17,7 +19,9 @@ import kotlin.system.exitProcess
 
 @SpringBootApplication(scanBasePackages = ["dev.jamesleach"])
 class LocationApp(
-    private val takeoutExtractService: TakeoutExtractService
+    private val takeoutExtractService: TakeoutExtractService,
+    private val polylineConverter: PolylineConverter,
+    private val gpsConverter: GpsConverter,
 ) : CommandLineRunner {
 
     companion object {
@@ -32,6 +36,8 @@ class LocationApp(
             .addOption("name", true, "Name of the extract")
             .addOption("path", true, "Path to the local Google Takeout zip")
             .addOption("url", true, "URL to the Google Takeout zip")
+            .addOption("polyline", true, "Path to the polyline to convert")
+            .addOption("gps", true, "Path to the gps to convert")
 
         val commandLineArguments = DefaultParser().parse(options, args)
 
@@ -40,11 +46,28 @@ class LocationApp(
             return
         }
 
+        if (commandLineArguments.hasOption("polyline")) {
+            polylineConverter.convert(
+                getName(commandLineArguments),
+                Paths.get(commandLineArguments.getOptionValue("polyline"))
+            )
+            return
+        }
+
+        if (commandLineArguments.hasOption("gps")) {
+            gpsConverter.convert(
+                getName(commandLineArguments),
+                Paths.get(commandLineArguments.getOptionValue("gps"))
+            )
+            return
+        }
+
         if (commandLineArguments.hasOption("url")) {
             takeoutExtractService.extract(
                 getName(commandLineArguments),
                 URL(commandLineArguments.getOptionValue("url")).openConnection().getInputStream()
             )
+            return
         }
 
         if (commandLineArguments.hasOption("path")) {

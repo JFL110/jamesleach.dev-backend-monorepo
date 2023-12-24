@@ -48,7 +48,7 @@ class MapLocationDigester(
         log.info("Aggregating squares")
         val allSquaresByIncrements = squareCollections
             .groupBy { IncrementsKey(it.latitudeIncrement, it.longitudeIncrement) }
-            .mapValues { it.value.flatMap { it.squares }.toSet() }
+            .mapValues { it.value.flatMap { col -> col.squares }.toSet() }
             .map {
                 SquaresDto(
                     it.key.latitudeIncrement,
