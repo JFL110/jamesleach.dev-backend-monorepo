@@ -144,7 +144,7 @@ class DigitClassificationIntegrationTest @Autowired constructor(
             .header("Origin", "http://www.jamesleach.dev")
             .exchange()
             .expectStatus().isOk
-            .expectHeader().valueEquals("Access-Control-Allow-Origin", "**")
+            .expectHeader().valueEquals("Access-Control-Allow-Origin", "*")
             .expectBody(String::class.java)
             .isEqualTo("pong")
     }
