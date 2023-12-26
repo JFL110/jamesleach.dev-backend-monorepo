@@ -37,8 +37,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_2 }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_2 }}
           aws-region: eu-west-2
 
       - name: Login to Amazon ECR
@@ -50,10 +50,10 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
           cd ./Docker
-          docker build -t $ECR_REGISTRY/jamesleach-dev:latest -t $ECR_REGISTRY/jamesleach-dev:$GITHUB_SHA -t $ECR_REGISTRY/jamesleach-dev:staging .
-          docker push $ECR_REGISTRY/jamesleach-dev:latest
-          docker push $ECR_REGISTRY/jamesleach-dev:staging
-          docker push $ECR_REGISTRY/jamesleach-dev:$GITHUB_SHA
+          docker build -t $ECR_REGISTRY_2/jamesleach-dev:latest -t $ECR_REGISTRY_2/jamesleach-dev:$GITHUB_SHA -t $ECR_REGISTRY_2/jamesleach-dev:staging .
+          docker push $ECR_REGISTRY_2/jamesleach-dev:latest
+          docker push $ECR_REGISTRY_2/jamesleach-dev:staging
+          docker push $ECR_REGISTRY_2/jamesleach-dev:$GITHUB_SHA
 
-      - name: Deploy to Staging
-        run: aws ecs update-service --cluster="jamesleach-dev" --service="jamesleach-dev-staging" --force-new-deployment
+#      - name: Deploy to Staging
+#        run: aws ecs update-service --cluster="jamesleach-dev" --service="jamesleach-dev-staging" --force-new-deployment
