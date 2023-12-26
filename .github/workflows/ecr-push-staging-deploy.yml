@@ -55,5 +55,6 @@ jobs:
           docker push $ECR_REGISTRY/jamesleach-dev:staging
           docker push $ECR_REGISTRY/jamesleach-dev:$GITHUB_SHA
 
+
 #      - name: Deploy to Staging
 #        run: aws ecs update-service --cluster="jamesleach-dev" --service="jamesleach-dev-staging" --force-new-deployment
