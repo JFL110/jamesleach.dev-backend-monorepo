@@ -13,7 +13,7 @@ internal class TakeoutSemanticLocationConsumer(
 
     private val latitudeLongitudeCorrectionFactor = 10000000.0
 
-    override fun canConsume(name: String) = name.contains("Takeout/Location History/Semantic Location History")
+    override fun canConsume(name: String) = name.contains("Takeout/Location History (Timeline)/Semantic Location History")
 
     override fun consume(inputStream: InputStream) = sequence {
         objectMapper.readTree(inputStream)["timelineObjects"].forEach { timelineObject ->
