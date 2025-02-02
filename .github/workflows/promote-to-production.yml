@@ -31,5 +31,4 @@ jobs:
 
       - name: Deploy to Production
         run: |
-          aws ecs update-service --cluster="jamesleach-dev-ec2" --service="jamesleach-dev-production-ec2" --force-new-deployment
-          aws ecs update-service --cluster="jamesleach-dev" --service="jamesleach-dev-production" --force-new-deployment
+          aws ecs update-service --cluster="jamesleach-dev-ec2" --service="jamesleach-dev-production-t2" --force-new-deployment
